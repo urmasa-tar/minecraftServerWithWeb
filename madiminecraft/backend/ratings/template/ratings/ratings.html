@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ratings-container">
+    <h1>Рейтинг игроков</h1>
+    
+    <table class="minecraft-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Игрок</th>
+                <th>Время в игре</th>
+                <th>Убийства (Kills)</th>
+                <th>Смерти (Deaths)</th>
+                <th>K/D Ratio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ stat.user.username }}</td>
+                <td>{{ stat.play_time }} мин</td>
+                <td>{{ stat.kills }}</td>
+                <td>{{ stat.deaths }}</td>
+                <td>
+                    {% if stat.deaths > 0 %}
+                        {{ stat.kills|div:stat.deaths|floatformat:2 }}
+                    {% else %}
+                        {{ stat.kills|floatformat:2 }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiMinecraft - {% block title %}{% endblock %}</title>
+    <style>
+        :root {
+            --mc-green: #4CAF50;
+            --mc-dark: #2d2d2d;
+            --mc-darker: #1a1a1a;
+            --mc-text: #e0e0e0;
+        }
+        body {
+            font-family: 'Minecraft', Arial, sans-serif;
+            background-color: var(--mc-darker);
+            color: var(--mc-text);
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: var(--mc-dark);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--mc-green);
+        }
+        .nav {
+            background-color: var(--mc-dark);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav a {
+            color: var(--mc-text);
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+        }
+        .nav a:hover {
+            color: var(--mc-green);
+        }
+        .content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div>
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'ratings' %}">Рейтинг</a>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <span>Привет, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}">Выйти</a>
+            {% else %}
+                <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>MadiMinecraft</h1>
+    </div>
+
+    <div class="content">
+        {% block content %}
+        <!-- Сюда будет подставляться контент из дочерних шаблонов -->
+        {% endblock %}
+    </div>
+</body>
+</html>

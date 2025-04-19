@@ -1,102 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiMinecraft - Главная</title>
-    <style>
-        body {
-            font-family: 'Minecraft', Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
-        .header {
-            background-color: #2d2d2d;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 4px solid #4CAF50;
-        }
-        .server-list {
-            max-width: 800px;
-            margin: 30px auto;
-        }
-        .server-card {
-            background-color: #2d2d2d;
-            border: 1px solid #444;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-        .server-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .server-name {
-            color: #4CAF50;
-            font-size: 1.5em;
-            margin: 0 0 10px 0;
-        }
-        .server-address {
-            font-family: monospace;
-            background-color: #1a1a1a;
-            padding: 5px 10px;
-            border-radius: 3px;
-        }
-        .status {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        .online {
-            background-color: #4CAF50;
-        }
-        .offline {
-            background-color: #f44336;
-        }
-        .auth-links {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        .auth-links a {
-            color: #4CAF50;
-            text-decoration: none;
-            margin-left: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="auth-links">
-        <a href="/accounts/login/">Вход</a>
-        <a href="/accounts/register/">Регистрация</a>
-    </div>
+{% extends 'base.html' %}
 
-    <div class="header">
-        <h1>Добро пожаловать на MadiMinecraft!</h1>
-        <p>Выберите сервер для подключения</p>
-    </div>
+{% block title %}Главная{% endblock %}
 
-    <div class="server-list">
-        {% for server in servers %}
-        <div class="server-card">
-            <h2 class="server-name">{{ server.name }}</h2>
-            <p>
-                <span class="status {% if server.is_online %}online{% else %}offline{% endif %}"></span>
-                Статус: {% if server.is_online %}Доступен{% else %}Недоступен{% endif %}
-            </p>
-            <p>Адрес: <span class="server-address">{{ server.ip_address }}:{{ server.port }}</span></p>
-            {% if user.is_authenticated %}
-                <p>Пароль: {{ server.password|default:"Нет пароля" }}</p>
-                <a href="/server/{{ server.id }}/">Подробнее</a>
-            {% else %}
-                <p>Пароль: <i>Требуется вход</i></p>
-            {% endif %}
-        </div>
-        {% endfor %}
+{% block content %}
+<div class="server-list">
+    {% for server in servers %}
+    <div class="server-card">
+        <h2 class="server-name">{{ server.name }}</h2>
+        <p>
+            <span class="status {% if server.is_online %}online{% else %}offline{% endif %}"></span>
+            Статус: {% if server.is_online %}Доступен{% else %}Недоступен{% endif %}
+        </p>
+        <p>Адрес: <span class="server-address">{{ server.ip_address }}:{{ server.port }}</span></p>
+        {% if user.is_authenticated %}
+            <p>Пароль: {{ server.password|default:"Нет пароля" }}</p>
+            <a href="/server/{{ server.id }}/">Подробнее</a>
+        {% else %}
+            <p>Пароль: <i>Требуется вход</i></p>
+        {% endif %}
     </div>
-</body>
-</html>
+    {% endfor %}
+</div>
+
+<style>
+    .server-list {
+        max-width: 800px;
+        margin: 30px auto;
+    }
+    .server-card {
+        background-color: #2d2d2d;
+        border: 1px solid #444;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    .server-name {
+        color: #4CAF50;
+        font-size: 1.5em;
+    }
+    .status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    .online { background-color: #4CAF50; }
+    .offline { background-color: #f44336; }
+</style>
+{% endblock %}

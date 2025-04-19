@@ -23,13 +23,7 @@
                 <td>{{ stat.play_time }} мин</td>
                 <td>{{ stat.kills }}</td>
                 <td>{{ stat.deaths }}</td>
-                <td>
-                    {% if stat.deaths > 0 %}
-                        {{ stat.kills|div:stat.deaths|floatformat:2 }}
-                    {% else %}
-                        {{ stat.kills|floatformat:2 }}
-                    {% endif %}
-                </td>
+                <td>{{ stat.kd_ratio|floatformat:2 }}</td>
             </tr>
             {% endfor %}
         </tbody>
